@@ -1,65 +1,75 @@
-body{
-  
+body {
+  font-family: 'Poppins', sans-serif;
   text-align: center;
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
 }
 
-#game-container{
+.container {
   margin: 20px auto;
   max-width: 400px;
   padding: 20px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  justify-content: center;
-  
 }
 
-.button{
-  height: 100px;
-  width: 100px;
-  border : none;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  
-}
-
-#Game-Board{
-  max-width: 400px;
+#game-board {
   display: grid;
   grid-template-columns: repeat(2, 100px);
   gap: 10px;
-  row-gap: 2px;
   justify-content: center;
-  padding: 5px;
+  margin: 20px auto;
 }
 
-#red{background-color: red;}
-#blue{background-color: blue;}
-#green{background-color:green ;}
-#yellow{background-color: rgb(177, 177, 40);}
-
-.game-buttons{
-  color: black;
-  background-color: #ffa31a;
-  border: none;
-  border-radius: 5px;
-  height: 20px;
+.button {
   width: 100px;
-
+  height: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s,tranform 0.1s;
 }
 
-.button-active{
+#red { background: red; }
+#blue { background: blue; }
+#green { background: green; }
+#yellow { background: rgba(177, 177, 43, 0.956); }
+
+.button.active {
   opacity: 1;
   transform: scale(1.1);
 }
 
-#Message {
+#start-button, #restart-button, .quit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #ffa31a;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quit-button{
+  
+}
+
+#start-button:hover {
+  background-color: #db870a;
+}
+
+#restart-button:hover {
+  background-color: #db870a;
+}
+
+#message {
   margin-top: 10px;
   font-size: 18px;
   color:#000066;
+}
+
+.menu{
+ height: 20px;
 }
