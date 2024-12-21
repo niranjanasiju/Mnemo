@@ -1,0 +1,65 @@
+body{
+  
+  text-align: center;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+#game-container{
+  margin: 20px auto;
+  max-width: 400px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  
+}
+
+.button{
+  height: 100px;
+  width: 100px;
+  border : none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  
+}
+
+#Game-Board{
+  max-width: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, 100px);
+  gap: 10px;
+  row-gap: 2px;
+  justify-content: center;
+  padding: 5px;
+}
+
+#red{background-color: red;}
+#blue{background-color: blue;}
+#green{background-color:green ;}
+#yellow{background-color: rgb(177, 177, 40);}
+
+.game-buttons{
+  color: black;
+  background-color: #ffa31a;
+  border: none;
+  border-radius: 5px;
+  height: 20px;
+  width: 100px;
+
+}
+
+.button-active{
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+#Message {
+  margin-top: 10px;
+  font-size: 18px;
+  color:#000066;
+}
