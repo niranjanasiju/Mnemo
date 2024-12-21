@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db, auth } from "../../../firebase";
 import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import "../../components/FamiliarFaces/FamiliarFaces.css";
+import Navbar from "../NavBar/NavBar";
 
 const FamiliarFaces = () => {
   const [randomImage, setRandomImage] = useState(null);
@@ -141,6 +142,8 @@ const FamiliarFaces = () => {
   }, []);
 
   return (
+    <>
+    <Navbar/>
     <div className="familiar-faces-container">
         <div className="top">
             <h1>Familiar Faces</h1>
@@ -179,6 +182,8 @@ const FamiliarFaces = () => {
         </div>
       )}
     </div>
+    </>
+    
   );
 };
 

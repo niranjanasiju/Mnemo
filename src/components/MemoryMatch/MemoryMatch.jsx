@@ -3,6 +3,7 @@ import './MemoryMatch.css'
 import SingleCard from './SingleCard'
 import { db, auth } from '../../../firebase'; // Firebase imports
 import { collection, getDocs } from 'firebase/firestore';
+import Navbar from '../NavBar/NavBar';
 
 // Initial state for cards with empty array
 const cardImages = [];
@@ -97,6 +98,7 @@ function MemoryMatch() {
 
   return (
     <>
+    <Navbar/>
       <div className='App'>
         <h1>MEMORY MATCH</h1>
         <button onClick={shuffleCards}>Restart</button>

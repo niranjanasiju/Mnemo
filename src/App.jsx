@@ -20,7 +20,7 @@ function App() {
             {/* Define your routes */}
             
             <Route path="/" element={<Home />} />
-            <Route path="menu" element={<GameNavigation/>}/>
+            <Route path="menue" element={<GameNavigation/>}/>
             <Route path="game1" element={<MemoryMatch/>}/>
             <Route path="/form" element={<FormPage />} />
             <Route path="/game4" element={<FamiliarFaces />} />

@@ -3,7 +3,8 @@ import imageCompression from 'browser-image-compression'; // Import the compress
 import { db, auth } from '../../firebase'; // Import Firebase Firestore
 import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
 import '../styles/FormPage.css';
-
+import Navbar from '../components/NavBar/NavBar';
+import { useNavigate } from 'react-router-dom';
 const MultiImageUpload = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +14,10 @@ const MultiImageUpload = () => {
   const [userNativePlace, setUserNativePlace] = useState('');
   const [userHobbies, setUserHobbies] = useState('');
   const [userAge, setUserAge] = useState('');
-
+  const navigate = useNavigate();
+  const handleProceed=()=>{
+    navigate("/menue");
+  }
   // Function to compress image with very low quality and resolution
   const compressImage = async (file) => {
     const options = {
@@ -131,6 +135,8 @@ const MultiImageUpload = () => {
   
 
   return (
+    <>
+    <Navbar/>
     <form onSubmit={handleSubmit}>
       {/* User Information */}
       <label>
@@ -211,6 +217,9 @@ const MultiImageUpload = () => {
         {loading ? "Uploading..." : "Submit"}
       </button>
     </form>
+    <button onClick={handleProceed}>Proceed</button>
+    </>
+    
   );
 };
 
