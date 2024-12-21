@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/*import React, { useState, useEffect } from "react";
 import "./style.css"; // Import your styles
 
 const Game = () => {
@@ -138,4 +138,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default Game*/
