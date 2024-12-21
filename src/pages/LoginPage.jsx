@@ -25,7 +25,7 @@ const LoginPage = () => {
       // createDoc(user);
 
       // Navigate to the dashboard after successful login
-      navigate("/game");
+      navigate("/form");
     } catch (error) {
       console.error("Login failed:", error);
 
@@ -51,6 +51,14 @@ const LoginPage = () => {
   );
 };
 
-
+const buttonStyle = {
+  padding: '10px 20px',
+  fontSize: '16px',
+  backgroundColor: '#4285F4',
+  color: 'white',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+};
 
 export default LoginPage;
