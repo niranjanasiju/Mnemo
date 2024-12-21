@@ -7,9 +7,9 @@ function GameNavigation() {
       <h1>Game Menu</h1>
       <nav className="menu-bar">
         <ul>
-          <li><Link to="/familiarfaces">Familiar Faces</Link></li>
-          <li><Link to="/memorymatch">Memory Match</Link></li>
-          <li><Link to="/storycompletion">Story Completion</Link></li>
+          <li><Link to="/game4">Familiar Faces</Link></li>
+          <li><Link to="/game1">Memory Match</Link></li>
+          
         </ul>
       </nav>
     </div>
