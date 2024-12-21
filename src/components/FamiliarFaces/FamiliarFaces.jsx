@@ -3,7 +3,7 @@ import { db, auth } from "../../../firebase";
 import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import "../../components/FamiliarFaces/FamiliarFaces.css";
 import Navbar from "../NavBar/NavBar";
-
+import { useNavigate } from "react-router-dom";
 const FamiliarFaces = () => {
   const [randomImage, setRandomImage] = useState(null);
   const [generatedImages, setGeneratedImages] = useState([]);
@@ -11,7 +11,7 @@ const FamiliarFaces = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [totalTries, setTotalTries] = useState(0);
   const [message, setMessage] = useState("");
-
+  const navigate=useNavigate();
   const fetchInitialScore = async () => {
     try {
       const user = auth.currentUser;
@@ -147,7 +147,6 @@ const FamiliarFaces = () => {
     <div className="familiar-faces-container">
         <div className="top">
             <h1>Familiar Faces</h1>
-            <p>X</p>
         </div>
       
       <h2>Score: {correctAnswers}/{totalTries}</h2>
@@ -167,7 +166,7 @@ const FamiliarFaces = () => {
       )}
       {generatedImages.length > 0 && (
         <div>
-          <h3>Select the correct image</h3>
+          <h3>Do you see a familiar face? hint: your {randomImage.relation} </h3>
           <div className="image-grid">
             {generatedImages.map((img, index) => (
               <img
