@@ -1,0 +1,46 @@
+.familiar-faces-container {
+    padding: 20px;
+  }
+  
+  .random-image-section {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .random-image {
+    max-width: 300px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .generate-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .generate-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .generated-images-section {
+    margin-top: 20px;
+  }
+  
+  .generated-images-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .generated-image {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
