@@ -1,0 +1,5 @@
+{
+    "incompleteText": "One day, John went to the park and saw a...",
+    "options": ["dog playing fetch", "robot flying", "dinosaur eating pizza"],
+    "correctOption": "dog playing fetch"
+  }
