@@ -1,28 +1,85 @@
-.story-completion-container {
+/* StoryStyles.css */
+
+body {
+    font-family: 'Poppins', sans-serif; /* Set Poppins as the default font */
+    background-color: #82c4c9;
+    background-image: url('/Users/niranjanasiju/mechanic3-story/Mnemo/src/components/StoryCompletion/Image.jpeg');
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    height: 100vh; /* Set the height to 100% of the viewport height */
+    margin: 0;
+    text-align: center; 
+    padding: 20px; 
+}
+
+.font-size-slider {
+    position: absolute; /* Position the slider in the top corner */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    z-index: 1000; /* Ensure it is above other elements */
+}
+
+h2 {
+    color: #000000;
+    -webkit-text-stroke: 1px white;
     text-align: center;
-    margin: 20px;
+    font-size: 55px;
 }
 
-.options button {
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+p {
+    font-size: 36px;
+    line-height: 1.5;
+    color: #000000;
 }
 
-.options button:hover {
-    background-color: #d0d0d0;
+.options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    
 }
 
-.options button.selected {
-    background-color: #8bc34a;
+button {
+    background-color: #4CAF50; /* Green */
     color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 36px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.selected {
+    background-color: #008CBA; /* Blue */
 }
 
 .feedback {
-    font-size: 1.2em;
+    text-align: center;
+    font-size: 36px;
     margin-top: 20px;
+    color: #d9534f; /* Red for feedback */
+}
+
+.quit-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.quit-button:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
 }
