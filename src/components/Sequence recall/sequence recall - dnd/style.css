@@ -1,0 +1,27 @@
+body{
+  margin: 0;
+}
+
+.container {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.Draggable{
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  gap: 10px;
+  justify-content: center;
+  margin: 20px auto;
+  padding: none;
+  cursor: move;
+}
+
+.Draggable.dragging{
+  opacity: .5;
+}

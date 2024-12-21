@@ -5,8 +5,9 @@ const messageDisplay = document.getElementById("message");
 const restartButton = document.getElementById("restart-button");
 
 // Game variables
-let sequence = [];
-let playerSequence = [];
+let correctOrder = ["part1", "part2", "part3", "part4"];
+let shuffledOrder = [];
+let userOrder = [];
 let level = 1;
 let inProgress = false;
 let isRestarting = false; // Declare the variable here
