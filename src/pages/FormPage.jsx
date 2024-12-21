@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import imageCompression from 'browser-image-compression'; // Import the compression library
 import { db, auth } from '../../firebase'; // Import Firebase Firestore
-import { doc, setDoc, collection } from 'firebase/firestore';
+import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
 import '../styles/FormPage.css';
 
 const MultiImageUpload = () => {
@@ -13,14 +13,14 @@ const MultiImageUpload = () => {
   const [userNativePlace, setUserNativePlace] = useState('');
   const [userHobbies, setUserHobbies] = useState('');
   const [userAge, setUserAge] = useState('');
-  
+
   // Function to compress image with very low quality and resolution
   const compressImage = async (file) => {
     const options = {
-      maxSizeMB: 0.1, // Compress to very low size, 0.1 MB
-      maxWidthOrHeight: 400, // Reduce the resolution to 400px (lower resolution)
-      useWebWorker: true, // Use WebWorker for compression
-      initialQuality: 0.1, // Set the initial quality to 10% (very low quality)
+      maxSizeMB: 0.1,
+      maxWidthOrHeight: 400,
+      useWebWorker: true,
+      initialQuality: 0.1,
     };
 
     try {
@@ -40,8 +40,8 @@ const MultiImageUpload = () => {
         return {
           file: compressedFile,
           preview: URL.createObjectURL(compressedFile),
-          tagName: '', // Initial tagName
-          relation: '', // Initial relation
+          tagName: '',
+          relation: '',
         };
       })
     );
@@ -51,8 +51,8 @@ const MultiImageUpload = () => {
   // Handle tagName and relation input change
   const handleTagChange = (index, field, value) => {
     const updatedImages = [...images];
-    updatedImages[index][field] = value; // Update tagName or relation based on field
-    setImages(updatedImages); // Update images state
+    updatedImages[index][field] = value;
+    setImages(updatedImages);
   };
 
   const handleRemoveImage = (index) => {
@@ -60,55 +60,7 @@ const MultiImageUpload = () => {
     setImages(updatedImages);
   };
 
-  // Handle form submit
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    try {
-      const user = auth.currentUser;
-      if (!user) throw new Error("User not authenticated");
-
-      // Save user metadata
-      const userDocRef = doc(db, "users", user.uid);
-      await setDoc(userDocRef, {
-        name: userName,
-        nativePlace: userNativePlace,
-        hobbies: userHobbies.split(',').map(hobby => hobby.trim()),
-        age: userAge
-         // Split and clean hobbies
-      });
-
-      // Save images and their tags in Firestore
-      const imagePromises = images.map(async (image, index) => {
-        const { tagName, relation, file } = image;
-
-        // Convert the file to base64 before storing it in Firestore
-        const base64 = await convertToBase64(file);
-
-        // Create a new document for each image
-        const imageDocRef = doc(collection(db, "users", user.uid, "images"), `image_${index}`);
-        
-        // Save image metadata (base64, tagName, relation) in the document
-        await setDoc(imageDocRef, {
-          name: file.name,
-          relation,
-          base64, // Store compressed base64 data
-        });
-
-        return { base64, tagName, relation };
-      });
-
-      await Promise.all(imagePromises);
-      setImages([]); // Clear images after successful upload
-      setLoading(false);
-      console.log("User and image metadata stored successfully!");
-    } catch (error) {
-      setLoading(false);
-      console.error("Error storing data:", error);
-    }
-  };
-
+  // Convert file to Base64
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -117,6 +69,66 @@ const MultiImageUpload = () => {
       reader.readAsDataURL(file);
     });
   };
+
+  // Handle form submit
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+  
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not authenticated");
+  
+      // Reference to the user's main document
+      const userDocRef = doc(db, "users", user.uid);
+  
+      // Save or update user metadata
+      await setDoc(
+        userDocRef,
+        {
+          name: userName,
+          nativePlace: userNativePlace,
+          hobbies: userHobbies.split(',').map((hobby) => hobby.trim()),
+          age: userAge,
+          scores: {
+            game1: 0,
+            game2: 0,
+            game3: 0,
+            game4: 0,
+          },
+        },
+        { merge: true } // Ensures data is updated, not overwritten
+      );
+  
+      // Save images and their tags in Firestore
+      const imagePromises = images.map(async (image) => {
+        const { relation, file } = image;
+  
+        // Convert the file to base64 before storing it in Firestore
+        const base64 = await convertToBase64(file);
+  
+        // Add a new document for each image in the 'images' subcollection
+        const imageCollectionRef = collection(db, "users", user.uid, "images");
+  
+        await addDoc(imageCollectionRef, {
+          name: file.name || `image-${Date.now()}`, // Unique file name
+          relation,
+          base64,
+        });
+      });
+  
+      await Promise.all(imagePromises);
+  
+      // Clear the form after successful submission
+      setImages([]);
+      setLoading(false);
+      console.log("User and image metadata stored successfully!");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error storing data:", error);
+    }
+  };
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -176,7 +188,7 @@ const MultiImageUpload = () => {
         {images.map((image, index) => (
           <div key={index}>
             <img src={image.preview} alt={`Preview ${index}`} />
-            
+
             <div>
               <label>
                 Relation with User:

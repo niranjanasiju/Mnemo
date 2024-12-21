@@ -25,7 +25,7 @@ const LoginPage = () => {
       // createDoc(user);
 
       // Navigate to the dashboard after successful login
-      navigate("/form");
+      navigate("/game4");
     } catch (error) {
       console.error("Login failed:", error);
 
@@ -59,6 +59,7 @@ const buttonStyle = {
   border: 'none',
   borderRadius: '5px',
   cursor: 'pointer',
+  width:'30%'
 };
 
 export default LoginPage;

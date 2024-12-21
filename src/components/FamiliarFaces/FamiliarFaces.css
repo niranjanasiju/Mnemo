@@ -1,46 +1,122 @@
+/* General Container */
+.top {
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  position: relative; /* Allows positioning the X button */
+  width: 100%;
+  padding: 10px;
+}
+
+.top h1 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* Style for the exit (X) button */
+.top p {
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  position: absolute; /* Position X button in the top-right corner */
+  top: 10px;
+  right: 10px;
+  color: #333;
+}
+
+.top p:hover {
+  color: red; /* Change color on hover to indicate it's clickable */
+}
+
 .familiar-faces-container {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 150px;
     padding: 20px;
-  }
-  
-  .random-image-section {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .random-image {
-    max-width: 300px;
-    margin-bottom: 20px;
-    border-radius: 8px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .generate-button {
+  /* Header */
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 1.25rem;
+    color: #555;
+  }
+  
+  h3 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Message Styling */
+  .message-correct {
+    color: #28a745;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeInOut 5s ease-in-out forwards;
+  }
+  
+  .message-incorrect {
+    color: #dc3545;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeInOut 5s ease-in-out forwards;
+  }
+  
+  /* Image Grid */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    justify-items: center;
+  }
+  
+  .grid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  /* Ensures the entire image fits within the container */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+  .grid-image:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Button */
+  .start-button {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1.2rem;
     background-color: #007bff;
     color: white;
-    padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
   }
   
-  .generate-button:hover {
+  .start-button:hover {
     background-color: #0056b3;
   }
   
-  .generated-images-section {
-    margin-top: 20px;
-  }
-  
-  .generated-images-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  
-  .generated-image {
-    width: 100%;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
+  /* Fade-in & Fade-out animation */
+  @keyframes fadeInOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
   }
   

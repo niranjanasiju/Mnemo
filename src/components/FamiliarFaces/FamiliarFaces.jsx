@@ -1,16 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import "../../components/FamiliarFaces/FamiliarFaces.css";
 
 const FamiliarFaces = () => {
-  const [randomImage, setRandomImage] = useState(null); // Random image from Firebase
-  const [generatedImages, setGeneratedImages] = useState([]); // URLs for images from Hugging Face
+  const [randomImage, setRandomImage] = useState(null);
+  const [generatedImages, setGeneratedImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [score, setScore] = useState(0); // User's score
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [totalTries, setTotalTries] = useState(0);
+  const [message, setMessage] = useState("");
 
-  // Function to fetch a random image
+  const fetchInitialScore = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not authenticated");
+
+      const gameRef = doc(db, "users", user.uid, "game4", "score");
+      const gameDoc = await getDoc(gameRef);
+
+      if (gameDoc.exists()) {
+        const { score } = gameDoc.data();
+        const [correct, total] = score.split("/").map(Number);
+        setCorrectAnswers(correct);
+        setTotalTries(total);
+      }
+    } catch (error) {
+      console.error("Error fetching initial score:", error);
+    }
+  };
+
   const fetchRandomImage = async () => {
     setLoading(true);
+    setMessage("");
     try {
       const user = auth.currentUser;
       if (!user) throw new Error("User not authenticated");
@@ -30,7 +52,6 @@ const FamiliarFaces = () => {
     }
   };
 
-  // Function to call Hugging Face API
   const query = async (prompt) => {
     const response = await fetch(
       "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-3-medium-diffusers",
@@ -48,29 +69,27 @@ const FamiliarFaces = () => {
       throw new Error(`HTTP ${response.status}: Failed to fetch from Hugging Face API`);
     }
 
-    const blob = await response.blob(); // Get the response as a Blob
-    return URL.createObjectURL(blob); // Create a URL for the Blob
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
   };
 
-  // Function to generate incorrect images
   const generateIncorrectImages = async () => {
     if (!randomImage) return;
 
     setLoading(true);
-    setGeneratedImages([]); // Reset generated images
-    const incorrectVariants = ["random variant 1", "random variant 2", "random variant 3"];
+    setGeneratedImages([]);
     try {
-      const newImages = [];
-      // Include the correct image for the selection
-      newImages.push(randomImage.base64);
-
+      const newImages = [randomImage.base64];
+      const incorrectVariants = Array.from({ length: 3 }, () =>
+        Math.floor(Math.random() * 100) + 1
+      );
+      console.log(randomImage);
       for (const variant of incorrectVariants) {
-        const prompt = `${randomImage.tagName} (${variant})`; // Alter prompt for incorrect images
+        const prompt = `A realistic face of a human ${randomImage.relation}, variant ${variant}`;
         const imageUrl = await query(prompt);
         newImages.push(imageUrl);
       }
 
-      // Shuffle the images to randomize their order
       setGeneratedImages(newImages.sort(() => Math.random() - 0.5));
     } catch (error) {
       console.error("Error generating incorrect images:", error);
@@ -79,46 +98,81 @@ const FamiliarFaces = () => {
     }
   };
 
-  // Handle image selection
-  const handleImageClick = (image) => {
+  const handleImageClick = async (image) => {
+    setTotalTries((prev) => prev + 1);
+    let isCorrect = false;
+
     if (image === randomImage.base64) {
-      alert("Correct!");
-      setScore((prevScore) => prevScore + 1);
+      setMessage("Correct! Well done.");
+      setCorrectAnswers((prev) => prev + 1);
+      isCorrect = true;
     } else {
-      alert("Incorrect!");
+      setMessage("Incorrect! Try again.");
     }
 
-    // Fetch a new random image after the selection
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not authenticated");
+
+      const gameRef = doc(db, "users", user.uid, "game4", "score");
+      await setDoc(
+        gameRef,
+        {
+          score: `${correctAnswers + (isCorrect ? 1 : 0)}/${totalTries + 1}`,
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      console.error("Error updating score:", error);
+    }
+
     fetchRandomImage();
     setGeneratedImages([]);
+
+    // Hide message after 5 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 5000);
   };
 
-  // Fetch a random image when the component mounts
   useEffect(() => {
     fetchRandomImage();
+    fetchInitialScore();
   }, []);
 
   return (
-    <div>
-      <h2>Score: {score}</h2>
+    <div className="familiar-faces-container">
+        <div className="top">
+            <h1>Familiar Faces</h1>
+            <p>X</p>
+        </div>
+      
+      <h2>Score: {correctAnswers}/{totalTries}</h2>
       {loading && <p>Loading...</p>}
+      {message && (
+        <p className={message.startsWith("Correct") ? "message-correct" : "message-incorrect"}>
+          {message}
+        </p>
+      )}
       {randomImage && (
         <div>
           <h3>{randomImage.tagName}</h3>
-          <img src={randomImage.base64} alt="Random from Firebase" />
-          <button onClick={generateIncorrectImages}>Start</button>
+          <button onClick={generateIncorrectImages} className="start-button">
+            Play
+          </button>
         </div>
       )}
       {generatedImages.length > 0 && (
         <div>
           <h3>Select the correct image</h3>
-          <div>
+          <div className="image-grid">
             {generatedImages.map((img, index) => (
               <img
                 key={index}
                 src={img}
                 alt={`Generated Option ${index}`}
                 onClick={() => handleImageClick(img)}
+                className="grid-image"
               />
             ))}
           </div>
