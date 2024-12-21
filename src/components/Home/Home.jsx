@@ -1,8 +1,11 @@
 import React from "react";
 import "./Home.css"; // Optional, for adding styles
+import Navbar from "../NavBar/NavBar";
 
 function Home() {
   return (
+    <>
+    <Navbar/>
     <div className="homepage-container">
       <header className="header">
         <h1>Welcome to Our Alzheimer's Awareness Page</h1>
@@ -39,7 +42,10 @@ function Home() {
         <p>&copy; 2024 Alzheimer's Awareness Organization</p>
       </footer>
     </div>
+  
+    </>
   );
+    
 }
 
 export default Home;
