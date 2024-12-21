@@ -1,0 +1,14 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffa31a;
+    height: 60px;
+    margin: 0%;
+    
+}
+
+.home{
+    font-weight: 900;
+    font-size: x-large;
+    color:#fff ;
+}

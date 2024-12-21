@@ -1,23 +1,34 @@
-import { useState } from 'react'
+//import { useState } from 'react'
 import './App.css'
+import MemoryMatch from './components/MemoryMatch/MemoryMatch'
+import LoginPage from './pages/LoginPage';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from './pages/LoginPage'
+import FamiliarFaces from './components/FamiliarFaces/FamiliarFaces';
 import FormPage from './pages/FormPage'
+import StoryCompletion from './components/StoryCompletion/StoryCompletion'
 function App() {
   
 
   return (
+    <>
+    
+    
     <Router>
-      <div>
-        {/* Common header or navigation bar can go here */}
-        <Routes>
-          {/* Define your routes */}
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/form" element={<FormPage/>} />
-          
-        </Routes>
-      </div>
-    </Router>
+        <div className="min-h-screen bg-gray-100">
+          {/* Common header or navigation bar can go here */}
+          <Routes>
+            {/* Define your routes */}
+            <Route path="/" element={<LoginPage />} />
+            <Route path="game1" element={<MemoryMatch/>}/>
+            <Route path="/form" element={<FormPage />} />
+            <Route path="/game4" element={<FamiliarFaces />} />
+            <Route path="/game5" element={<StoryCompletion />} />
+          </Routes>
+        </div>
+      </Router>
+    </> 
+    
+      
   )
 }
 

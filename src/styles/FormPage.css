@@ -1,5 +1,4 @@
-/* FormPage.css */
-
+/* Overall form styling */
 form {
     display: flex;
     flex-direction: column;
@@ -10,14 +9,20 @@ form {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    z-index: 1; /* Ensure it's above other elements */
   }
   
+  /* Label styling */
   label {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #333;
   }
   
+  /* File input styling */
   input[type="file"] {
     margin-bottom: 20px;
     padding: 10px;
@@ -25,8 +30,15 @@ form {
     background-color: #f7f7f7;
     border: 1px solid #ccc;
     border-radius: 4px;
+    color: #333;
   }
   
+  input[type="file"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+  
+  /* Styling for the images preview */
   div {
     display: flex;
     flex-direction: column;
@@ -44,6 +56,7 @@ form {
     margin-bottom: 10px;
   }
   
+  /* Tag input field */
   div input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -52,8 +65,40 @@ form {
     border-radius: 4px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    color: #333;
+    pointer-events: auto; /* Ensure the input is interactive */
+    background-color: #fafafa; /* Temporary background to check visibility */
+    z-index: 1; /* Ensure the input is above other elements */
   }
   
+  div input[type="text"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+  
+  /* Button styling */
+  div button {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  div button:hover {
+    background-color: #e53935;
+  }
+  
+  div button:disabled {
+    background-color: #f8d7da;
+    cursor: not-allowed;
+  }
+  
+  /* Submit button styling */
   button {
     padding: 12px 20px;
     font-size: 16px;
@@ -63,6 +108,7 @@ form {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
   }
   
   button:hover {
@@ -74,23 +120,7 @@ form {
     cursor: not-allowed;
   }
   
-  button[type="button"] {
-    background-color: #f44336;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #e53935;
-  }
-  
-  button[type="button"]:disabled {
-    background-color: #f8d7da;
-  }
-  
+  /* Focus states */
   input[type="file"]:focus,
   input[type="text"]:focus {
     outline: none;
