@@ -8,6 +8,12 @@ const MultiImageUpload = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // New state for user fields
+  const [userName, setUserName] = useState('');
+  const [userNativePlace, setUserNativePlace] = useState('');
+  const [userHobbies, setUserHobbies] = useState('');
+  const [userAge, setUserAge] = useState('');
+  
   // Function to compress image with very low quality and resolution
   const compressImage = async (file) => {
     const options = {
@@ -34,18 +40,19 @@ const MultiImageUpload = () => {
         return {
           file: compressedFile,
           preview: URL.createObjectURL(compressedFile),
-          tag: '', // Initial empty tag
+          tagName: '', // Initial tagName
+          relation: '', // Initial relation
         };
       })
     );
     setImages((prevImages) => [...prevImages, ...compressedImages]);
   };
 
-  // Update tag value in images state
-  const handleTagChange = (index, newTag) => {
+  // Handle tagName and relation input change
+  const handleTagChange = (index, field, value) => {
     const updatedImages = [...images];
-    updatedImages[index].tag = newTag; // Set the new tag
-    setImages(updatedImages); // Update state with new images array
+    updatedImages[index][field] = value; // Update tagName or relation based on field
+    setImages(updatedImages); // Update images state
   };
 
   const handleRemoveImage = (index) => {
@@ -62,9 +69,19 @@ const MultiImageUpload = () => {
       const user = auth.currentUser;
       if (!user) throw new Error("User not authenticated");
 
-      // Save images in separate documents in Firestore
+      // Save user metadata
+      const userDocRef = doc(db, "users", user.uid);
+      await setDoc(userDocRef, {
+        name: userName,
+        nativePlace: userNativePlace,
+        hobbies: userHobbies.split(',').map(hobby => hobby.trim()),
+        age: userAge
+         // Split and clean hobbies
+      });
+
+      // Save images and their tags in Firestore
       const imagePromises = images.map(async (image, index) => {
-        const { tag, file } = image;
+        const { tagName, relation, file } = image;
 
         // Convert the file to base64 before storing it in Firestore
         const base64 = await convertToBase64(file);
@@ -72,35 +89,23 @@ const MultiImageUpload = () => {
         // Create a new document for each image
         const imageDocRef = doc(collection(db, "users", user.uid, "images"), `image_${index}`);
         
-        // Save image metadata (base64, tag) in the document
+        // Save image metadata (base64, tagName, relation) in the document
         await setDoc(imageDocRef, {
           name: file.name,
-          tag,
+          relation,
           base64, // Store compressed base64 data
         });
-        /*const userDocRef = doc(db, 'users', user.uid);
-        await setDoc(
-            userDocRef,
-            {
-              [`images.${tag}`]: arrayUnion({
-                name: file.name,
-                tag,
-                base64, // Store the base64 string instead of the image URL
-              }),
-            },
-            { merge: true } // This ensures the document is created if it doesn't exist
-          );*/
 
-        return { base64, tag };
+        return { base64, tagName, relation };
       });
 
       await Promise.all(imagePromises);
-      setImages([]);
+      setImages([]); // Clear images after successful upload
       setLoading(false);
-      console.log("Compressed image metadata stored successfully!");
+      console.log("User and image metadata stored successfully!");
     } catch (error) {
       setLoading(false);
-      console.error("Error storing compressed image metadata:", error);
+      console.error("Error storing data:", error);
     }
   };
 
@@ -115,8 +120,50 @@ const MultiImageUpload = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* User Information */}
       <label>
-        Upload Images:
+        Name:
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          required
+        />
+      </label>
+      <br />
+      <label>
+        Native Place:
+        <input
+          type="text"
+          value={userNativePlace}
+          onChange={(e) => setUserNativePlace(e.target.value)}
+          required
+        />
+      </label>
+      <br />
+      <label>
+        Hobbies (separated by commas):
+        <input
+          type="text"
+          value={userHobbies}
+          onChange={(e) => setUserHobbies(e.target.value)}
+          required
+        />
+      </label>
+      <br />
+      <label>
+        Age:
+        <input
+          type="text"
+          value={userAge}
+          onChange={(e) => setUserAge(e.target.value)}
+          required
+        />
+      </label>
+
+      {/* Image Upload */}
+      <label>
+        Upload Familiar Faces:
         <input
           type="file"
           accept="image/*"
@@ -129,12 +176,18 @@ const MultiImageUpload = () => {
         {images.map((image, index) => (
           <div key={index}>
             <img src={image.preview} alt={`Preview ${index}`} />
-            <input
-              type="text"
-              placeholder="Enter tag"
-              value={image.tag} // This binds the input field value to the tag
-              onChange={(e) => handleTagChange(index, e.target.value)} // Ensure tag change is captured
-            />
+            
+            <div>
+              <label>
+                Relation with User:
+                <input
+                  type="text"
+                  value={image.relation}
+                  onChange={(e) => handleTagChange(index, 'relation', e.target.value)}
+                  required
+                />
+              </label>
+            </div>
             <button type="button" onClick={() => handleRemoveImage(index)}>
               Remove
             </button>
