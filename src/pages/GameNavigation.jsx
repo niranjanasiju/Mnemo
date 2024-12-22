@@ -13,6 +13,9 @@ function GameNavigation() {
         <Link to="/MemoryMatch">
           <button>Memory Match</button>
         </Link>
+        <Link to="/Sequencerecall">
+          <button>Sequence Recall</button>
+        </Link>
       </nav>
     </div>
   );
