@@ -1,7 +1,5 @@
-*{
-    color: #fff;
-    
-    
+.homepage-container{
+    padding: 10%;
 }
 
 
@@ -9,7 +7,7 @@
 
 .header h1{
    
-    color: #fff;
+    color: #0d1856;
     font-weight: 700 ;
     font-size: ;
 }
@@ -18,11 +16,12 @@
     color: #F3722C  ;
     font-weight: 1000 ;
     font-size: xx-large;
+    
 }
 
 .content p{
     font-size: larger;
     font-style: normal;
-    
+
 }
 
