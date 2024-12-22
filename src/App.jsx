@@ -7,6 +7,7 @@ import Home from './components/Home/Home'
 import FamiliarFaces from './components/FamiliarFaces/FamiliarFaces'
 import MemoryMatch from './components/MemoryMatch/MemoryMatch'
 import FormPage from "./pages/FormPage"
+import Sequence from './components/Sequence recall/Sequence'
 function App() {
   
 
@@ -19,9 +20,13 @@ function App() {
         <Route path='/menue' element={<GameNavigation/>}/>
         <Route path='/form' element={<FormPage/>}/>
         <Route path='/familiarfaces' element={<FamiliarFaces />} />
+<<<<<<< HEAD
         <Route path='/MemoryMatch' element={<MemoryMatch />} />
+=======
+        <Route path='/memorymatch' element={<MemoryMatch />} />
+        <Route path='/sequence' element={<Sequence/>}/>
+>>>>>>> d624602976de86d87500e21c6ef1ebe192a9db66
         
-      
       </Routes> 
      </BrowserRouter> 
   )
