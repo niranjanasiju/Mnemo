@@ -19,7 +19,7 @@ function App() {
         <Route path='/menue' element={<GameNavigation/>}/>
         <Route path='/form' element={<FormPage/>}/>
         <Route path='/familiarfaces' element={<FamiliarFaces />} />
-        <Route path='/memorymatch' element={<MemoryMatch />} />
+        <Route path='/MemoryMatch' element={<MemoryMatch />} />
         
       
       </Routes> 

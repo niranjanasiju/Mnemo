@@ -44,15 +44,20 @@ const Navbar = () => {
       }
     };
   return (
-      <div className='nav'>
-      <Link to="/"><div className='items' >
-        <img src='public\img\clown-fish.png' alt='logo'/></div></Link>
-      <Link to="/menue" ><div>Menue</div></Link>
-      <Link to="/login"  onClick={signInWithGoogle}><div>Login</div></Link>
+    <div className="nav">
+    <Link to="/" className="nav-logo">
+      <img src="public/img/clown-fish.png" alt="logo" />
+    </Link>
+    <div className="nav-items">
+      <Link to="/menue">
+        <button className="nav-button">Menue</button>
+      </Link>
+      <button className="nav-button" onClick={signInWithGoogle}>
+        {loading ? "Loading..." : "Login"}
+      </button>
     </div>
+  </div>
     
-    
-      
     );
 }
 

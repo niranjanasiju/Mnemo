@@ -34,6 +34,6 @@
   
   .game-navigation button:hover {
     transform: scale(1.05); /* Slight zoom on hover */
-    background-color: #21a1f1; /* Darker blue on hover */
+    background-color: #b2bec6; /* Darker blue on hover */
   }
   

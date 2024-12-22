@@ -5,17 +5,17 @@
     
 }
 .nav{
-
-    width:100%;
-   
-    background:#F3722C  ;
-    padding: 4px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
+    
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    width:  ;
+    background:#F3722C  ;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+
     height: 60px;
     margin: 0%;
     font-weight: 900;
@@ -24,11 +24,28 @@
     
 }
 
-
-
-.items{
-    height: 50px;
-    width: 50px;
+.nav-items{
+    display: flex;
+    justify-content: right;
+    flex-direction: row;
+    padding-right: 10%;
+   
 }
 
-  
+.nav-logo{
+    height: 50px;
+    width: 70px;
+    gap: 5px; 
+}
+
+.nav-button {
+    padding: 10px 20px; /* Button size */
+    font-size: 1rem; /* Text size */
+    color: white;
+    background-color: #072258; /* Button color */
+    border: none;
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Smooth hover effect */
+    width: fit-content;  
+}
