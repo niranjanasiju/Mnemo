@@ -45,10 +45,10 @@ const Navbar = () => {
     };
   return (
       <div className='nav'>
-
-      <Link to="/"><div className='home'>Home</div></Link>
-      <Link to="/menue" className='menu'><div>Menue</div></Link>
-      <Link to="/login" className='login' onClick={signInWithGoogle}><div>Login</div></Link>
+      <Link to="/"><div className='items' >
+        <img src='public\img\clown-fish.png' alt='logo'/></div></Link>
+      <Link to="/menue" ><div>Menue</div></Link>
+      <Link to="/login"  onClick={signInWithGoogle}><div>Login</div></Link>
     </div>
     
     
