@@ -1,0 +1,39 @@
+.game-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+    
+  }
+  
+  .game-navigation h1 {
+    color: white;
+    font-size: 3rem; /* Large font size */
+    margin-bottom: 20px; /* Space below the heading */
+    font-weight: 900;  
+}
+  
+  .game-navigation nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between buttons */
+  }
+  
+  .game-navigation button {
+    padding: 10px 20px; /* Adjust padding for size */
+    font-size: 1.2rem; /* Increase font size for readability */
+    border: none; 
+    width: fit-content;/* Remove default border */
+    border-radius: 25px; /* Rounded corners */
+     /* Light blue background */
+     /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: transform 0.2s, background-color 0.2s; /* Smooth hover effects */
+  }
+  
+  .game-navigation button:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    background-color: #b2bec6; /* Darker blue on hover */
+  }
+  

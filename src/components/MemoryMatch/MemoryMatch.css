@@ -1,41 +1,43 @@
 @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
 
-body{
+
+.App{
+  max-width: 860px;
+  margin: 40px auto;
   font-family: Poppins , sans-serif;
   margin: 0%;
   font-size: 1.5em;
   text-align: center;
-  background: #2b83dc;
-  color: #ffa31a;
+  color: #fff;
   align-items: center;
 }
 
+.App h1{
+  font-size: 1.5em;
+  text-align: center;
+  color: #fff;
+}
 
-
-.App{
-    max-width: 860px;
-    margin: 40px auto;
-  }
   
   button{
-    background: none;
+    background: #F3722C;
     border: 2px solid #fff;
     padding: 6px 12px;
     border-radius: 4px;
-    color: #ffa31a;
+     width: fit-content;
     font-weight: bold;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.5em;
     
   }
   
   button:hover{
-    background: #ffa31a;
+    background: #000;
     color: #fff;
   }
 
   .turns{
-    color: #ffa31a;
+    color: #f44336;
     font-weight: 700;
   }
   

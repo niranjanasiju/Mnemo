@@ -1,4 +1,6 @@
 /* General Container */
+
+
 .top {
   display: flex;
   justify-content: center; /* Center content horizontally */
@@ -21,7 +23,7 @@
   position: absolute; /* Position X button in the top-right corner */
   top: 10px;
   right: 10px;
-  color: #333;
+  color: #000;
 }
 
 .top p:hover {
