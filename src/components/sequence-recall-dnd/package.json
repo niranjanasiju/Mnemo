@@ -1,0 +1,25 @@
+{
+  "name": "sequence-recall-dnd",
+  "version": "1.0.0",
+  "main": "src/main.jsx",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^3.0.1"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "vite-plugin-react": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "license": "MIT",
+  "description": "A sequence recall game using drag-and-drop functionality"
+}
