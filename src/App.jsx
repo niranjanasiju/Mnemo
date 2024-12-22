@@ -8,6 +8,8 @@ import FamiliarFaces from './components/FamiliarFaces/FamiliarFaces'
 import MemoryMatch from './components/MemoryMatch/MemoryMatch'
 import FormPage from "./pages/FormPage"
 import Sequence from './components/Sequence recall/Sequence'
+import StoryCompletion from './components/StoryCompletion/StoryCompletion';
+import LifeSummary from './components/LifeSummary/lifesummary';
 function App() {
   
 
@@ -22,7 +24,8 @@ function App() {
         <Route path='/familiarfaces' element={<FamiliarFaces />} />
         <Route path='/memorymatch' element={<MemoryMatch />} />
         <Route path='/sequence' element={<Sequence/>}/>
-        
+        <Route path="/life" element={<LifeSummary />} />
+        <Route path="/game5" element={<StoryCompletion />} />
       </Routes> 
      </BrowserRouter> 
   )

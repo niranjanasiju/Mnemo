@@ -1,128 +1,134 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // For API calls
-import { getDatabase, ref, get } from "firebase/database"; // Firebase imports
+import { OpenAI } from "openai";
+import { doc, getDoc } from "firebase/firestore"; // Firebase Firestore imports
+import { db } from "/Users/niranjanasiju/mechanic3-story/Mnemo/firebase.js";
 
 const StoryCompletion = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(null); // Store user data from Firestore
   const [story, setStory] = useState("");
+  const [question, setQuestion] = useState("");
   const [options, setOptions] = useState([]);
   const [correctOption, setCorrectOption] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
 
-  const API_URL = "https://api-inference.huggingface.co/models/google/gemma-2-2b-it";
-  const API_TOKEN = "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"; // Replace with your token
+  //const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY; // Replace with your OpenAI API key
+  const OPENAI_API_KEY = "xxx";
 
-  // Define the query function
-  const query = async (prompt) => {
+  const openai = new OpenAI({
+    apiKey: OPENAI_API_KEY,
+    dangerouslyAllowBrowser: true, // Enable browser usage
+  });
+
+  // Function to fetch user data from Firestore
+  const fetchUserDataFromFirestore = async (userId) => {
     try {
-      const response = await axios.post(API_URL, prompt, {
-        headers: {
-          Authorization: `Bearer ${API_TOKEN}`,
-        },
-      });
-      return response.data; // Return the data from the response
+      const userDocRef = doc(db, "users", userId);
+      const docSnap = await getDoc(userDocRef);
+
+      if (docSnap.exists()) {
+        console.log("Fetched User Data:", docSnap.data());
+        return docSnap.data();
+      } else {
+        console.warn("No such user found");
+        return null;
+      }
     } catch (error) {
-      console.error("API call error:", error);
-      throw error; // Rethrow the error
+      console.error("Error fetching user data from Firestore:", error);
+      return null;
     }
   };
 
-  // Sample user data
-  const sampleUserData = {
-    name: "John Doe",
-    familyMember: "sister",
-    hobby: "painting",
-    nativePlace: "New York"
-  };
-
   useEffect(() => {
-    // Set sample user data instead of fetching from Firebase
-    setUserData(sampleUserData);
+    const loadData = async () => {
+      const fetchedUserData = await fetchUserDataFromFirestore("zXss39oOyyahfiDIjm1yF0TFhhg2");
+      if (fetchedUserData) {
+        setUserData(fetchedUserData);
+      }
+    };
+
+    loadData();
   }, []);
 
   useEffect(() => {
     if (userData) {
-      console.log("User Data:", userData);
-  
       const generateStory = async () => {
-        const prompt = {
-          inputs: `Create a 50-word story based on the following details: 
-          Name: ${userData.name}, 
-          Family Member: ${userData.familyMember}, 
-          Hobby: ${userData.hobby}, 
-          Native Place: ${userData.nativePlace}. 
-          Include a blank space in the story for the user to fill in. Provide three options to choose from, with one option being the correct answer that fills the blank. Generate output in the following format without any additional text or formatting:
-          
-          Example:
-          if the user details are
-          Name: John Doe, 
-          Family Member: sister, 
-          Hobby: painting, 
-          Native Place: New York 
-          
-          {Story:John Doe, a proud New Yorker, loved painting vibrant cityscapes. One day, he and his sister went to Central Park, where he painted a stunning view of the lake. The artwork captured the essence of _______ so beautifully that even strangers stopped to admire it.,Option 1:serenity,Option 2:chaos,Option 3:mystery,Answer: Option 1}
-          
-          Now, create a story based on the details provided above.`
-        };
-  
+        const prompt = `
+          You are a creative writer and game designer. Based on the given data:
+          Name: ${userData.name || "unknown"}, 
+          Family Member: ${userData.familyMember || "unknown"}, 
+          Hobby: ${userData.hobby || "unknown"}, 
+          Native Place: ${userData.nativePlace || "unknown"}.
+          Write a story of no more than 50 words. Create a fill-in-the-blank question with three options.
+          Return the output in this format:
+          {
+            "story": "Your story", 
+            "question": "Your question", 
+            "o1": "Option A", 
+            "o2": "Option B", 
+            "o3": "Option C", 
+            "correct_ans": "Correct Option"
+          }
+        `;
+
         try {
-          const result = await query(prompt);
-          console.log("API Response:", JSON.stringify(result, null, 2));
-  
-          if (result && result.length > 0 && result[0]?.generated_text) {
-            const generatedText = result[0].generated_text;
-            console.log("Generated Text:", generatedText);
-  
-            // Updated parsing logic
-            const matches = generatedText.match(
-              /{Story:\s*([\s\S]*?),\s*Option 1:\s*(.*?),\s*Option 2:\s*(.*?),\s*Option 3:\s*(.*?),\s*Answer:\s*(.*)}/
-            );
-  
-            if (matches && matches.length === 6) {
-              const parsedOutput = {
-                Story: matches[1].trim(),
-                Option1: matches[2].trim(),
-                Option2: matches[3].trim(),
-                Option3: matches[4].trim(),
-                Answer: matches[5].trim()
-              };
-  
-              console.log("Parsed Output:", parsedOutput);
-              setStory(parsedOutput.Story);
-              setOptions([parsedOutput.Option1, parsedOutput.Option2, parsedOutput.Option3]);
-              setCorrectOption(parsedOutput.Answer);
+          const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
+          });
+
+          const generatedText = response.choices[0].message.content.trim();
+          console.log("Generated Text:", generatedText);
+
+          // Safely parse the JSON response
+          try {
+            const parsed = JSON.parse(generatedText);
+
+            if (
+              parsed &&
+              parsed.story &&
+              parsed.question &&
+              parsed.o1 &&
+              parsed.o2 &&
+              parsed.o3 &&
+              parsed.correct_ans
+            ) {
+              setStory(parsed.story);
+              setQuestion(parsed.question);
+              setOptions([parsed.o1, parsed.o2, parsed.o3]);
+              setCorrectOption(parsed.correct_ans);
             } else {
-              setFeedback("Failed to parse the generated response. Please try again.");
+              throw new Error("Incomplete or malformed response");
             }
-          } else {
-            setFeedback("No story generated. Please try again.");
+          } catch (parseError) {
+            console.error("Error parsing the generated response:", parseError);
+            setFeedback("Failed to parse the story. Please try again.");
           }
         } catch (error) {
           console.error("Error generating story:", error);
           setFeedback("Failed to generate story. Please check the console for details.");
         }
       };
-  
+
       generateStory();
     }
   }, [userData]);
-  
 
   const handleAnswerSubmit = () => {
-    if (userAnswer === options[0]) {
-      setFeedback("Correct!");
+    if (userAnswer === correctOption) {
+      setFeedback("Correct! 🎉");
     } else {
-      setFeedback("Try again!");
+      setFeedback("Try again! ❌");
     }
   };
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>Story Completion Game</h1>
-      {userData && story ? (
+      {story ? (
         <>
-          <p>{story}</p>
+          <p><strong>Story:</strong> {story}</p>
+          <p><strong>Question:</strong> {question}</p>
           <div>
             {options.map((option, index) => (
               <button
@@ -132,17 +138,32 @@ const StoryCompletion = () => {
                   margin: "5px",
                   padding: "10px",
                   border: "1px solid #ccc",
-                  background: userAnswer === option ? "#ddd" : "#fff",
+                  background: userAnswer === option ? "#e0f7fa" : "#fff",
+                  cursor: "pointer",
                 }}
               >
                 {option}
               </button>
             ))}
           </div>
-          <button onClick={handleAnswerSubmit} style={{ marginTop: "10px" }}>
+          <button
+            onClick={handleAnswerSubmit}
+            style={{
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             Submit Answer
           </button>
-          {feedback && <p>{feedback}</p>}
+          {feedback && (
+            <p style={{ marginTop: "10px", color: feedback.includes("Correct") ? "green" : "red" }}>
+              {feedback}
+            </p>
+          )}
         </>
       ) : (
         <p>Loading game...</p>
@@ -152,3 +173,4 @@ const StoryCompletion = () => {
 };
 
 export default StoryCompletion;
+
