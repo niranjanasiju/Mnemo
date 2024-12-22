@@ -10,6 +10,7 @@ import FormPage from "./pages/FormPage"
 import Sequence from './components/Sequence recall/Sequence'
 import StoryCompletion from './components/StoryCompletion/StoryCompletion';
 import LifeSummary from './components/LifeSummary/lifesummary';
+import LifeStory from './components/WhoAmI/whoami';
 function App() {
   
 
@@ -30,6 +31,7 @@ function App() {
         <Route path='/sequence' element={<Sequence/>}/>
 
         <Route path="/life" element={<LifeSummary />} />
+        <Route path="/lifestory" element={<LifeStory />} />
         <Route path="/game5" element={<StoryCompletion />} />
       </Routes> 
      </BrowserRouter> 
