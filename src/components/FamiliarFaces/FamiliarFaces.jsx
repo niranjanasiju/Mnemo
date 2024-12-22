@@ -3,7 +3,6 @@ import { db, auth } from "../../../firebase";
 import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import "../../components/FamiliarFaces/FamiliarFaces.css";
 import Navbar from "../NavBar/NavBar";
-import { useNavigate } from "react-router-dom";
 const FamiliarFaces = () => {
   const [randomImage, setRandomImage] = useState(null);
   const [generatedImages, setGeneratedImages] = useState([]);
@@ -11,7 +10,6 @@ const FamiliarFaces = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [totalTries, setTotalTries] = useState(0);
   const [message, setMessage] = useState("");
-  const navigate=useNavigate();
   const fetchInitialScore = async () => {
     try {
       const user = auth.currentUser;

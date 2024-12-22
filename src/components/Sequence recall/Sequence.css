@@ -1,0 +1,100 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background-color: #f8c964;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  #game-board {
+    display: grid;
+    grid-template-columns: repeat(2, 150px);
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+  }
+  
+  .button {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: opacity 0.2s, transform 0.1s; /* Fixed typo in 'transform' */
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .button img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  
+  }
+  
+  #red { background: red; }
+  #blue { background: blue; }
+  #green { background: green; }
+  #yellow { background: rgba(177, 177, 43, 0.956); }
+  
+  .button.active {
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+  
+  .button.expand {
+    transform: scale(1.1); /* Expanding the button */
+    transition: transform 0.3s ease; /* Smooth transition */
+  }
+  
+  
+  #start-button, #restart-button, .quit-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #ffa31a;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    width: 150px;
+  }
+  
+  #start-button:hover {
+    background-color: #db870a;
+  }
+  
+  #restart-button:hover {
+    background-color: #db870a;
+  }
+  
+  #message {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #000066;
+  }
+  
+  .menu {
+    height: 20px;
+  }
+  
+  h1 {
+    display: block; /* Ensure the element is visible */
+    color: black;   /* Ensure the text is visible */
+  }
+  
+  #level {
+    display: block;
+    color: black;
+    font-size: 16px;
+  }
+  

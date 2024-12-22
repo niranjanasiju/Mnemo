@@ -15,6 +15,9 @@ function GameNavigation() {
           <li>
             <Link to="/familiarfaces">Familiar Faces</Link>
           </li>
+          <li>
+            <Link to="/sequence">Sequence Recall</Link>
+          </li>
           
         </ul>
       </nav>
